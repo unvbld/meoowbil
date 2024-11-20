@@ -1,5 +1,10 @@
 package com.meoowbil.meoowbil.repository;
 
-public class Meoowbilrepository {
-    
+
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.meoowbil.meoowbil.models.Meoowbil;
+
+public interface Meoowbilrepository extends JpaRepository<Meoowbil, Long> {
 }

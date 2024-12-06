@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Car Marketplace</title>
+</head>
+<body>
+    <h1>Car Marketplace</h1>
+    <a href="/cars/add">Add New Car</a>
+    <table>
+        <thead>
+            <tr>
+                <th>Image</th>
+                <th>Brand</th>
+                <th>Model</th>
+                <th>Year</th>
+                <th>Price</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="car : ${cars}">
+                <td>
+                    <img th:if="${car.imageFileName}" th:src="@{'/images/' + ${car.imageFileName}}" alt="Car Image" style="max-width: 100px; max-height: 100px;">
+                    <span th:unless="${car.imageFileName}">No Image</span>
+                </td>
+                <td th:text="${car.brand}"></td>
+                <td th:text="${car.model}"></td>
+                <td th:text="${car.year}"></td>
+                <td th:text="${car.price}"></td>
+                <td>
+                    <a th:href="@{/cars/edit/{id}(id=${car.id})}">Edit</a>
+                    <a th:href="@{/cars/delete/{id}(id=${car.id})}">Delete</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>
+

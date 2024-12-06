@@ -1,13 +1,13 @@
-package com.meoowbil.meoowbil;
+package com.mobil.mobil;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class MeoowbilApplication {
+public class MobilApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(MeoowbilApplication.class, args);
+		SpringApplication.run(MobilApplication.class, args);
 	}
 
 }

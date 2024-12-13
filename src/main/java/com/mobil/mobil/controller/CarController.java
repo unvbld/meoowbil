@@ -16,8 +16,6 @@ import org.springframework.web.multipart.MultipartFile;
 import com.mobil.mobil.model.Car;
 import com.mobil.mobil.service.CarService;
 
-
-
 @Controller
 @RequestMapping("/cars")
 public class CarController {
@@ -84,6 +82,5 @@ public class CarController {
         carService.deleteCar(id);
         return "redirect:/cars";
     }
-
 }
 

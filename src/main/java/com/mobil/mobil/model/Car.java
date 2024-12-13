@@ -1,12 +1,10 @@
 package com.mobil.mobil.model;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import com.mobil.mobil.model.CarType;
+
 @Entity
 public class Car {
 
@@ -19,17 +17,14 @@ public class Car {
     private double price;
     private String imageFileName;
 
-    @Enumerated(EnumType.STRING)
-    private CarType type;
-
+    // Constructors
     public Car() {}
 
-    public Car(String brand, String model, int year, double price, CarType type) {
+    public Car(String brand, String model, int year, double price) {
         this.brand = brand;
         this.model = model;
         this.year = year;
         this.price = price;
-        this.type = type;
     }
 
     // Getters and setters
@@ -80,12 +75,5 @@ public class Car {
     public void setImageFileName(String imageFileName) {
         this.imageFileName = imageFileName;
     }
-
-    public CarType getType() {
-        return type;
-    }
-
-    public void setType(CarType type) {
-        this.type = type;
-    }
 }
+

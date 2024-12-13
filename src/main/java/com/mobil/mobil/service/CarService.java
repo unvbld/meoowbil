@@ -13,7 +13,6 @@ import org.springframework.web.multipart.MultipartFile;
 import com.mobil.mobil.model.Car;
 import com.mobil.mobil.repository.CarRepository;
 
-
 @Service
 public class CarService {
 
@@ -44,7 +43,5 @@ public class CarService {
         Files.write(path, bytes);
         return fileName;
     }
-
 }
-
 

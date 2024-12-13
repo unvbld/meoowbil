@@ -2,28 +2,48 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Add New Car</title>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-    <h1>Add New Car</h1>
-    <form action="#" th:action="@{/cars/add}" th:object="${car}" method="post" enctype="multipart/form-data">
-        <label for="brand">Brand:</label>
-        <input type="text" id="brand" th:field="*{brand}" required><br>
-
-        <label for="model">Model:</label>
-        <input type="text" id="model" th:field="*{model}" required><br>
-
-        <label for="year">Year:</label>
-        <input type="number" id="year" th:field="*{year}" required><br>
-
-        <label for="price">Price:</label>
-        <input type="number" id="price" th:field="*{price}" step="0.01" required><br>
-
-        <label for="image">Image:</label>
-        <input type="file" id="image" name="image" accept="image/*"><br>
-
-        <button type="submit">Add Car</button>
-    </form>
-    <a href="/cars">Back to Car List</a>
+<body class="bg-gray-50 text-gray-800">
+    <div class="min-h-screen flex items-center justify-center">
+        <div class="bg-white shadow-lg rounded-lg p-8 w-full max-w-lg">
+            <h1 class="text-2xl font-semibold text-center text-blue-600 mb-6">Add New Car</h1>
+            <form th:action="@{/cars/add}" th:object="${car}" method="post" enctype="multipart/form-data">
+                <div class="mb-4">
+                    <label for="brand" class="block text-sm font-medium">Brand:</label>
+                    <input type="text" id="brand" th:field="*{brand}" class="w-full mt-2 px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-300" required>
+                </div>
+                <div class="mb-4">
+                    <label for="model" class="block text-sm font-medium">Model:</label>
+                    <input type="text" id="model" th:field="*{model}" class="w-full mt-2 px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-300" required>
+                </div>
+                <div class="mb-4">
+                    <label for="year" class="block text-sm font-medium">Year:</label>
+                    <input type="number" id="year" th:field="*{year}" class="w-full mt-2 px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-300" required>
+                </div>
+                <div class="mb-4">
+                    <label for="price" class="block text-sm font-medium">Price:</label>
+                    <input type="number" id="price" th:field="*{price}" class="w-full mt-2 px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-300" step="0.01" required>
+                </div>
+                <div class="mb-4">
+                    <label for="type" class="block text-sm font-medium">Type:</label>
+                    <select id="type" th:field="*{type}" class="w-full mt-2 px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-300" required>
+                        <option value="" disabled selected>Select Type</option>
+                        <option th:value="MPV">MPV</option>
+                        <option th:value="SUV">SUV</option>
+                        <option th:value="SPORT_CAR">Sport Car</option>
+                    </select>
+                </div>
+                <div class="mb-4">
+                    <label for="image" class="block text-sm font-medium">Image:</label>
+                    <input type="file" id="image" name="image" accept="image/*" class="w-full mt-2 px-4 py-2 border rounded-lg">
+                </div>
+                <div class="flex justify-between items-center">
+                    <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-6 rounded-lg shadow">Add Car</button>
+                    <a href="/cars" class="text-sm text-blue-600 hover:underline">Back to Car List</a>
+                </div>
+            </form>
+        </div>
+    </div>
 </body>
 </html>
-

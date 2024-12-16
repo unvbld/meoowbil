@@ -2,38 +2,43 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Car Marketplace</title>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-    <h1>Car Marketplace</h1>
-    <a href="/cars/add">Add New Car</a>
-    <table>
-        <thead>
-            <tr>
-                <th>Image</th>
-                <th>Brand</th>
-                <th>Model</th>
-                <th>Year</th>
-                <th>Price</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr th:each="car : ${cars}">
-                <td>
-                    <img th:if="${car.imageFileName}" th:src="@{'/images/' + ${car.imageFileName}}" alt="Car Image" style="max-width: 100px; max-height: 100px;">
-                    <span th:unless="${car.imageFileName}">No Image</span>
-                </td>
-                <td th:text="${car.brand}"></td>
-                <td th:text="${car.model}"></td>
-                <td th:text="${car.year}"></td>
-                <td th:text="${car.price}"></td>
-                <td>
-                    <a th:href="@{/cars/edit/{id}(id=${car.id})}">Edit</a>
-                    <a th:href="@{/cars/delete/{id}(id=${car.id})}">Delete</a>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+<body class="bg-gray-50 text-gray-800">
+    <div class="min-h-screen flex flex-col items-center p-8">
+        <h1 class="text-3xl font-bold text-center text-blue-600 mb-6">Car Marketplace</h1>
+        <a href="/cars/add" class="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-lg mb-6">Add New Car</a>
+        <div class="w-full max-w-4xl">
+            <table class="min-w-full bg-white shadow-lg rounded-lg">
+                <thead>
+                    <tr class="bg-gray-200 text-gray-600 text-left">
+                        <th class="py-4 px-6">Image</th>
+                        <th class="py-4 px-6">Brand</th>
+                        <th class="py-4 px-6">Model</th>
+                        <th class="py-4 px-6">Year</th>
+                        <th class="py-4 px-6">Price</th>
+                        <th class="py-4 px-6">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="car : ${cars}" class="border-t">
+                        <td class="py-4 px-6">
+                            <img th:if="${car.imageFileName}" th:src="@{'/images/' + ${car.imageFileName}}" alt="Car Image" class="w-24 h-24 rounded-lg object-cover">
+                            <span th:unless="${car.imageFileName}" class="text-gray-400">No Image</span>
+                        </td>
+                        <td class="py-4 px-6" th:text="${car.brand}"></td>
+                        <td class="py-4 px-6" th:text="${car.model}"></td>
+                        <td class="py-4 px-6" th:text="${car.year}"></td>
+                        <td class="py-4 px-6" th:text="${car.price}"></td>
+                        <td class="py-4 px-6 flex space-x-4">
+                            <a th:href="@{/cars/edit/{id}(id=${car.id})}" class="text-green-500 hover:text-green-700">Edit</a>
+                            <a th:href="@{/cars/delete/{id}(id=${car.id})}" class="text-red-500 hover:text-red-700">Delete</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
 </body>
 </html>
 

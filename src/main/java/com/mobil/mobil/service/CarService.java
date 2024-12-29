@@ -45,6 +45,12 @@ public class CarService {
         return fileName;
     }
 
+    public List<Car> searchCars(String query) {
+        if (query != null && !query.isEmpty()) {
+            return carRepository.findByBrandContainingIgnoreCaseOrModelContainingIgnoreCase(query, query);
+        }
+        return carRepository.findAll(); // Jika query kosong, kembalikan semua mobil
+    }
 }
 
 

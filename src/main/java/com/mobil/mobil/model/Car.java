@@ -15,6 +15,10 @@ public class Car {
     private Long id;
     private String brand;
     private String model;
+    private String rangka;
+    private String mesin;
+    private String plat;
+    private double kapasitas;
     private int year;
     private double price;
     private String imageFileName;
@@ -24,15 +28,19 @@ public class Car {
 
     public Car() {}
 
-    public Car(String brand, String model, int year, double price, CarType type) {
+    public Car(String brand, String model, String rangka, String mesin, String plat, double kapasitas, int year, double price, CarType type) {
         this.brand = brand;
         this.model = model;
+        this.rangka = rangka;
+        this.mesin = mesin;
+        this.plat = plat;
+        this.kapasitas = kapasitas;
         this.year = year;
         this.price = price;
         this.type = type;
     }
 
-    // Getters and setters
+    //Setter Getter
     public Long getId() {
         return id;
     }
@@ -55,6 +63,38 @@ public class Car {
 
     public void setModel(String model) {
         this.model = model;
+    }
+
+    public String getRangka() {
+        return rangka;
+    }
+
+    public void setRangka(String rangka) {
+        this.rangka = rangka;
+    }
+
+    public String getMesin() {
+        return mesin;
+    }
+
+    public void setMesin(String mesin) {
+        this.mesin = mesin;
+    }
+
+    public String getPlat() {
+        return plat;
+    }
+
+    public void setPlat(String plat) {
+        this.plat = plat;
+    }
+
+    public double getKapasitas() {
+        return kapasitas;
+    }
+
+    public void setKapasitas(double kapasitas) {
+        this.kapasitas = kapasitas;
     }
 
     public int getYear() {

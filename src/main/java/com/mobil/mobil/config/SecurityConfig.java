@@ -20,7 +20,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-            .csrf(csrf -> csrf.disable()) // Nonaktifkan CSRF untuk debugging
+            .csrf(csrf -> csrf.disable()) // Nonaktifkan CSRF untuk debugging (aktifkan di produksi)
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/auth/register", "/auth/login", "/login").permitAll() // Izinkan akses tanpa login
                 .anyRequest().authenticated()
@@ -28,6 +28,12 @@ public class SecurityConfig {
             .formLogin(form -> form
                 .loginPage("/auth/login")
                 .defaultSuccessUrl("/cars", true)
+            )
+            .logout(logout -> logout
+                .logoutUrl("/auth/logout") // Endpoint logout
+                .logoutSuccessUrl("/auth/login?logout=true") // Redirect setelah logout
+                .invalidateHttpSession(true) // Hapus session
+                .deleteCookies("JSESSIONID") // Hapus cookies
             );
         return http.build();
     }

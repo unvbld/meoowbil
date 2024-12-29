@@ -1,8 +1,11 @@
 package com.mobil.mobil.controller;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +21,7 @@ import com.mobil.mobil.service.CarService;
 
 
 
+
 @Controller
 @RequestMapping("/cars")
 public class CarController {
@@ -27,6 +31,12 @@ public class CarController {
 
     @GetMapping
     public String listCars(Model model) {
+        // Ambil nama pengguna dari Spring Security
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName(); // Nama pengguna yang sedang login
+        
+        // Tambahkan ke model
+        model.addAttribute("username", username);
         model.addAttribute("cars", carService.getAllCars());
         return "cars";
     }
@@ -79,11 +89,19 @@ public class CarController {
         return "redirect:/cars";
     }
 
-    @GetMapping("/delete/{id}")
+    @PostMapping("/delete/{id}")
     public String deleteCar(@PathVariable Long id) {
         carService.deleteCar(id);
         return "redirect:/cars";
     }
 
+     // Endpoint untuk pencarian
+     @GetMapping("/search")
+    public String searchCars(@RequestParam(required = false) String query, Model model) {
+        // Panggil service untuk mencari mobil berdasarkan query
+        List<Car> cars = carService.searchCars(query);
+        model.addAttribute("cars", cars); // Kirim hasil pencarian ke view
+        return "cars"; // Tampilkan halaman daftar mobil
+    }
 }
 

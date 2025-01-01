@@ -96,7 +96,7 @@ public class CarController {
     }
 
      // Endpoint untuk pencarian
-     @GetMapping("/search")
+    @GetMapping("/search")
     public String searchCars(@RequestParam(required = false) String query, Model model) {
         // Panggil service untuk mencari mobil berdasarkan query
         List<Car> cars = carService.searchCars(query);

@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sales Management</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center">Sales Management</h1>
+
+        <form id="salesForm" class="mb-4">
+            <input type="hidden" id="salesId">
+            <div class="mb-3">
+                <label for="namaSales" class="form-label">Nama Sales:</label>
+                <input type="text" id="namaSales" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label for="mobil" class="form-label">Mobil:</label>
+                <select id="mobil" class="form-select" required>
+                    <option value="">Pilih Mobil</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="penjualan" class="form-label">Penjualan:</label>
+                <input type="number" id="penjualan" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label for="pembeli" class="form-label">Pembeli:</label>
+                <input type="text" id="pembeli" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label for="tanggal" class="form-label">Tanggal:</label>
+                <input type="date" id="tanggal" class="form-control" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Save</button>
+        </form>
+
+        <h2 class="text-center">Sales List</h2>
+        <table class="table table-bordered table-striped mt-3">
+            <thead class="table-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Nama Sales</th>
+                    <th>Mobil</th>
+                    <th>Penjualan</th>
+                    <th>Pembeli</th>
+                    <th>Tanggal</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="salesTableBody">
+            </tbody>
+        </table>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        const apiUrl = '/api/sales';
+
+        document.addEventListener('DOMContentLoaded', loadSales);
+
+        document.getElementById('salesForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const id = document.getElementById('salesId').value;
+            const salesData = {
+                namaSales: document.getElementById('namaSales').value,
+                mobil: document.getElementById('mobil').value,
+                penjualan: parseFloat(document.getElementById('penjualan').value),
+                pembeli: document.getElementById('pembeli').value,
+                tanggal: document.getElementById('tanggal').value,
+            };
+
+            if (id) {
+                updateSales(id, salesData);
+            } else {
+                createSales(salesData);
+            }
+        });
+
+        function loadSales() {
+            fetch(apiUrl)
+                .then(response => response.json())
+                .then(data => {
+                    const tableBody = document.getElementById('salesTableBody');
+                    tableBody.innerHTML = '';
+                    data.forEach(sales => {
+                        const formattedDate = new Date(sales.tanggal).toLocaleDateString();
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${sales.id}</td>
+                            <td>${sales.namaSales}</td>
+                            <td>${sales.mobil}</td>
+                            <td>${sales.penjualan}</td>
+                            <td>${sales.pembeli}</td>
+                            <td>${formattedDate}</td>
+                            <td>
+                                <button class="btn btn-warning btn-sm" onclick="editSales(${sales.id})">Edit</button>
+                                <button class="btn btn-danger btn-sm" onclick="deleteSales(${sales.id})">Delete</button>
+                            </td>
+                        `;
+                        tableBody.appendChild(row);
+                    });
+                });
+        }
+
+        function createSales(sales) {
+            fetch(apiUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(sales),
+            }).then(() => {
+                loadSales();
+                document.getElementById('salesForm').reset();
+            });
+        }
+
+        function updateSales(id, sales) {
+            fetch(`${apiUrl}/${id}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(sales),
+            }).then(() => {
+                loadSales();
+                document.getElementById('salesForm').reset();
+            });
+        }
+
+        function deleteSales(id) {
+            fetch(`${apiUrl}/${id}`, { method: 'DELETE' })
+                .then(() => loadSales());
+        }
+
+        function editSales(id) {
+            fetch(`${apiUrl}/${id}`)
+                .then(response => response.json())
+                .then(sales => {
+                    document.getElementById('salesId').value = sales.id;
+                    document.getElementById('namaSales').value = sales.namaSales;
+                    document.getElementById('mobil').value = sales.mobil;
+                    document.getElementById('penjualan').value = sales.penjualan;
+                    document.getElementById('pembeli').value = sales.pembeli;
+                    document.getElementById('tanggal').value = sales.tanggal;
+                });
+        }
+
+        function loadCars() {
+            fetch('/cars')
+                .then(response => response.json())
+                .then(cars => {
+                    const mobilSelect = document.getElementById('mobil');
+                    mobilSelect.innerHTML = '<option value="">Pilih Mobil</option>'; // Reset dropdown
+                    cars.forEach(car => {
+                        const option = document.createElement('option');
+                        option.value = car.id; // Gunakan ID mobil sebagai value
+                        option.textContent = `${car.id} - ${car.name}`; // Nama mobil
+                        mobilSelect.appendChild(option);
+                    });
+                });
+        }
+
+        // Panggil fungsi loadCars ketika halaman dimuat
+        document.addEventListener('DOMContentLoaded', () => {
+            loadSales();
+            loadCars();
+        });
+
+        document.getElementById('salesForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const id = document.getElementById('salesId').value;
+            const salesData = {
+                namaSales: document.getElementById('namaSales').value,
+                mobilId: document.getElementById('mobil').value, // Kirim ID mobil
+                penjualan: parseFloat(document.getElementById('penjualan').value),
+                pembeli: document.getElementById('pembeli').value,
+                tanggal: document.getElementById('tanggal').value,
+            };
+
+            if (id) {
+                updateSales(id, salesData);
+            } else {
+                createSales(salesData);
+            }
+        });
+    </script>
+</body>
+</html>

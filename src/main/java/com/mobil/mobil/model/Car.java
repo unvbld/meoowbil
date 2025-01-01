@@ -6,8 +6,10 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import lombok.Data;
 
 @Entity
+@Data
 public class Car {
 
     @Id
@@ -40,92 +42,4 @@ public class Car {
         this.type = type;
     }
 
-    //Setter Getter
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getBrand() {
-        return brand;
-    }
-
-    public void setBrand(String brand) {
-        this.brand = brand;
-    }
-
-    public String getModel() {
-        return model;
-    }
-
-    public void setModel(String model) {
-        this.model = model;
-    }
-
-    public String getRangka() {
-        return rangka;
-    }
-
-    public void setRangka(String rangka) {
-        this.rangka = rangka;
-    }
-
-    public String getMesin() {
-        return mesin;
-    }
-
-    public void setMesin(String mesin) {
-        this.mesin = mesin;
-    }
-
-    public String getPlat() {
-        return plat;
-    }
-
-    public void setPlat(String plat) {
-        this.plat = plat;
-    }
-
-    public double getKapasitas() {
-        return kapasitas;
-    }
-
-    public void setKapasitas(double kapasitas) {
-        this.kapasitas = kapasitas;
-    }
-
-    public int getYear() {
-        return year;
-    }
-
-    public void setYear(int year) {
-        this.year = year;
-    }
-
-    public double getPrice() {
-        return price;
-    }
-
-    public void setPrice(double price) {
-        this.price = price;
-    }
-
-    public String getImageFileName() {
-        return imageFileName;
-    }
-
-    public void setImageFileName(String imageFileName) {
-        this.imageFileName = imageFileName;
-    }
-
-    public CarType getType() {
-        return type;
-    }
-
-    public void setType(CarType type) {
-        this.type = type;
-    }
 }

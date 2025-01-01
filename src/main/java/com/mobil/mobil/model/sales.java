@@ -1,80 +1,97 @@
 package com.mobil.mobil.model;
 
-import java.sql.Date;
+import java.util.Date;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 
 @Entity
-public class sales {
-    
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
-    private String namaSales;
-    private String mobil;
-    private double penjualan;
-    private String pembeli;
-    private Date tanggal;
+public class Sales {
 
-    public sales(String ns, String m,double p, String pem, Date t){
-        this.namaSales = ns;
-        this.mobil = m;
-        this.penjualan = p;
-        this.pembeli = pem;
-        this.tanggal = t;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String namaSales;
+    private String pembeli; 
+
+    @Temporal(TemporalType.DATE)
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date tanggalPenjualan;
+
+    private String brand;
+    private String model;
+    private Double price;
+    private Long carId;
+
+    // Getters dan Setters
+    public Long getId() {
+        return id;
     }
 
-    // Setter
-    public void setId(Long id){
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public void setNamaSales(String ns){
-        this.namaSales = ns;
+    public String getNamaSales() {
+        return namaSales;
     }
 
-    public void setPenjualan(double p){
-        this.penjualan = p;
+    public void setNamaSales(String namaSales) {
+        this.namaSales = namaSales;
     }
 
-    public void setPembeli(String p){
-        this.pembeli = p;
+    public String getPembeli() {
+        return pembeli;
     }
 
-    public void setTanggal(Date t){
-        this.tanggal = t;
+    public void setPembeli(String pembeli) {
+        this.pembeli = pembeli;
     }
 
-    public void setCar(String c){
-        this.mobil = c;
+    public Date getTanggalPenjualan() {
+        return tanggalPenjualan;
     }
 
-    // Getter
-    public Long getId(){
-        return this.id;
+    public void setTanggalPenjualan(Date tanggalPenjualan) {
+        this.tanggalPenjualan = tanggalPenjualan;
     }
 
-    public String getNamaSales(){
-        return this.namaSales;
+    public String getBrand() {
+        return brand;
     }
 
-    public double getPenjualan(){
-        return this.penjualan;
+    public void setBrand(String brand) {
+        this.brand = brand;
     }
 
-    public String getPembeli(){
-        return this.pembeli;
+    public String getModel() {
+        return model;
     }
 
-    public Date getTanggal(){
-        return this.tanggal;
+    public void setModel(String model) {
+        this.model = model;
     }
 
-    public String getCar(){
-        return this.mobil;
+    public Double getPrice() {
+        return price;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
+    }
+
+    public Long getCarId() {
+        return carId;
+    }
+    
+    public void setCarId(Long carId) {
+        this.carId = carId;
     }
 }
-

@@ -1,188 +1,90 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sales Management</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>Sales Records</title>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-    <div class="container mt-5">
-        <h1 class="text-center">Sales Management</h1>
+<body class="bg-gray-50 text-gray-800">
+    <!-- Navigation Bar -->
+    <nav class="bg-blue-500 text-white px-4 py-3 shadow-lg">
+        <div class="flex justify-between items-center">
+            <a href="/sales" class="text-xl font-bold">Sales Records</a>
 
-        <form id="salesForm" class="mb-4">
-            <input type="hidden" id="salesId">
-            <div class="mb-3">
-                <label for="namaSales" class="form-label">Nama Sales:</label>
-                <input type="text" id="namaSales" class="form-control" required>
+            <details class="relative">
+                <summary class="list-none px-4 py-2 text-sm font-medium cursor-pointer hover:bg-blue-600 rounded-lg focus:outline-none">
+                    <span th:text="${username}"></span>
+                </summary>
+                <div class="absolute right-0 mt-2 bg-white text-gray-800 rounded-lg shadow-lg py-2 w-40">
+                    <a href="/auth/logout" class="block px-4 py-2 text-sm hover:bg-gray-100">Logout</a>
+                </div>
+            </details>
+        </div>
+    </nav>
+
+    <div class="min-h-screen flex flex-col items-center p-8">
+        <h1 class="text-3xl font-bold text-center text-blue-600 mb-6">Sales Records</h1>
+
+        <!-- Filter Form -->
+        <form method="get" action="/sales/filter" class="mb-6 w-full max-w-4xl">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div>
+                    <label for="start" class="block text-sm font-medium text-gray-700">Start Date:</label>
+                    <input type="date" id="start" name="start" 
+                           class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-300">
+                </div>
+                <div>
+                    <label for="end" class="block text-sm font-medium text-gray-700">End Date:</label>
+                    <input type="date" id="end" name="end" 
+                           class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-300">
+                </div>
+                <div class="flex items-end">
+                    <button type="submit" 
+                            class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-lg w-full">
+                        Filter
+                    </button>
+                </div>
             </div>
-            <div class="mb-3">
-                <label for="mobil" class="form-label">Mobil:</label>
-                <select id="mobil" class="form-select" required>
-                    <option value="">Pilih Mobil</option>
-                </select>
+            <div class="mt-4">
+                <a href="/sales" class="text-blue-500 hover:underline">Reset</a>
             </div>
-            <div class="mb-3">
-                <label for="penjualan" class="form-label">Penjualan:</label>
-                <input type="number" id="penjualan" class="form-control" required>
-            </div>
-            <div class="mb-3">
-                <label for="pembeli" class="form-label">Pembeli:</label>
-                <input type="text" id="pembeli" class="form-control" required>
-            </div>
-            <div class="mb-3">
-                <label for="tanggal" class="form-label">Tanggal:</label>
-                <input type="date" id="tanggal" class="form-control" required>
-            </div>
-            <button type="submit" class="btn btn-primary">Save</button>
         </form>
 
-        <h2 class="text-center">Sales List</h2>
-        <table class="table table-bordered table-striped mt-3">
-            <thead class="table-dark">
-                <tr>
-                    <th>ID</th>
-                    <th>Nama Sales</th>
-                    <th>Mobil</th>
-                    <th>Penjualan</th>
-                    <th>Pembeli</th>
-                    <th>Tanggal</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody id="salesTableBody">
-            </tbody>
-        </table>
+        <!-- Add New Sale Button -->
+        <a href="/sales/add" class="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-lg mb-6">Add New Sale</a>
+
+        <!-- Sales Table -->
+        <div class="w-full max-w-7xl">
+            <table class="table-auto w-full bg-white rounded-lg shadow-md overflow-hidden">
+                <thead class="bg-blue-500 text-white">
+                    <tr>
+                        <th class="px-4 py-2 text-left">ID</th>
+                        <th class="px-4 py-2 text-left">Nama Sales</th>
+                        <th class="px-4 py-2 text-left">Mobil</th>
+                        <th class="px-4 py-2 text-left">Harga</th>
+                        <th class="px-4 py-2 text-left">Pembeli</th>
+                        <th class="px-4 py-2 text-left">Tanggal Penjualan</th>
+                        <th class="px-4 py-2 text-left">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="sale : ${sales}" class="border-b hover:bg-gray-100">
+                        <td class="px-4 py-2" th:text="${sale.id}"></td>
+                        <td class="px-4 py-2" th:text="${sale.namaSales}"></td>
+                        <td class="px-4 py-2" th:text="${sale.brand + ' ' + sale.model}"></td>
+                        <td class="px-4 py-2" th:text="'Rp. ' + ${sale.price}"></td>
+                        <td class="px-4 py-2" th:text="${sale.pembeli}"></td>
+                        <td class="px-4 py-2" th:text="${sale.tanggalPenjualan}"></td>
+                        <td class="px-4 py-2 flex space-x-2">
+                            <a th:href="@{/sales/edit/{id}(id=${sale.id})}" 
+                               class="bg-yellow-500 hover:bg-yellow-600 text-white font-medium py-1 px-3 rounded-lg">Edit</a>
+                            <a th:href="@{/sales/delete/{id}(id=${sale.id})}" 
+                               class="bg-red-500 hover:bg-red-600 text-white font-medium py-1 px-3 rounded-lg" 
+                               onclick="return confirm('Are you sure?')">Delete</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        const apiUrl = '/api/sales';
-
-        document.addEventListener('DOMContentLoaded', loadSales);
-
-        document.getElementById('salesForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const id = document.getElementById('salesId').value;
-            const salesData = {
-                namaSales: document.getElementById('namaSales').value,
-                mobil: document.getElementById('mobil').value,
-                penjualan: parseFloat(document.getElementById('penjualan').value),
-                pembeli: document.getElementById('pembeli').value,
-                tanggal: document.getElementById('tanggal').value,
-            };
-
-            if (id) {
-                updateSales(id, salesData);
-            } else {
-                createSales(salesData);
-            }
-        });
-
-        function loadSales() {
-            fetch(apiUrl)
-                .then(response => response.json())
-                .then(data => {
-                    const tableBody = document.getElementById('salesTableBody');
-                    tableBody.innerHTML = '';
-                    data.forEach(sales => {
-                        const formattedDate = new Date(sales.tanggal).toLocaleDateString();
-                        const row = document.createElement('tr');
-                        row.innerHTML = `
-                            <td>${sales.id}</td>
-                            <td>${sales.namaSales}</td>
-                            <td>${sales.mobil}</td>
-                            <td>${sales.penjualan}</td>
-                            <td>${sales.pembeli}</td>
-                            <td>${formattedDate}</td>
-                            <td>
-                                <button class="btn btn-warning btn-sm" onclick="editSales(${sales.id})">Edit</button>
-                                <button class="btn btn-danger btn-sm" onclick="deleteSales(${sales.id})">Delete</button>
-                            </td>
-                        `;
-                        tableBody.appendChild(row);
-                    });
-                });
-        }
-
-        function createSales(sales) {
-            fetch(apiUrl, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(sales),
-            }).then(() => {
-                loadSales();
-                document.getElementById('salesForm').reset();
-            });
-        }
-
-        function updateSales(id, sales) {
-            fetch(`${apiUrl}/${id}`, {
-                method: 'PUT',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(sales),
-            }).then(() => {
-                loadSales();
-                document.getElementById('salesForm').reset();
-            });
-        }
-
-        function deleteSales(id) {
-            fetch(`${apiUrl}/${id}`, { method: 'DELETE' })
-                .then(() => loadSales());
-        }
-
-        function editSales(id) {
-            fetch(`${apiUrl}/${id}`)
-                .then(response => response.json())
-                .then(sales => {
-                    document.getElementById('salesId').value = sales.id;
-                    document.getElementById('namaSales').value = sales.namaSales;
-                    document.getElementById('mobil').value = sales.mobil;
-                    document.getElementById('penjualan').value = sales.penjualan;
-                    document.getElementById('pembeli').value = sales.pembeli;
-                    document.getElementById('tanggal').value = sales.tanggal;
-                });
-        }
-
-        function loadCars() {
-            fetch('/cars')
-                .then(response => response.json())
-                .then(cars => {
-                    const mobilSelect = document.getElementById('mobil');
-                    mobilSelect.innerHTML = '<option value="">Pilih Mobil</option>'; // Reset dropdown
-                    cars.forEach(car => {
-                        const option = document.createElement('option');
-                        option.value = car.id; // Gunakan ID mobil sebagai value
-                        option.textContent = `${car.id} - ${car.name}`; // Nama mobil
-                        mobilSelect.appendChild(option);
-                    });
-                });
-        }
-
-        // Panggil fungsi loadCars ketika halaman dimuat
-        document.addEventListener('DOMContentLoaded', () => {
-            loadSales();
-            loadCars();
-        });
-
-        document.getElementById('salesForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const id = document.getElementById('salesId').value;
-            const salesData = {
-                namaSales: document.getElementById('namaSales').value,
-                mobilId: document.getElementById('mobil').value, // Kirim ID mobil
-                penjualan: parseFloat(document.getElementById('penjualan').value),
-                pembeli: document.getElementById('pembeli').value,
-                tanggal: document.getElementById('tanggal').value,
-            };
-
-            if (id) {
-                updateSales(id, salesData);
-            } else {
-                createSales(salesData);
-            }
-        });
-    </script>
 </body>
 </html>

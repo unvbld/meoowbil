@@ -11,10 +11,12 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Entity
 @Data
-public class Sales {
+@EqualsAndHashCode(callSuper = true)
+public class Sales extends Pengguna{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
